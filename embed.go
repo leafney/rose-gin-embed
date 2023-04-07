@@ -19,12 +19,12 @@ func (e embedFileSystem) Exists(prefix string, path string) bool {
 }
 
 func EmbedFolder(fsEmbed embed.FS, targetPath string) ServeFileSystem {
-	fsys, err := fs.Sub(fsEmbed, targetPath)
+	sub, err := fs.Sub(fsEmbed, targetPath)
 	if err != nil {
 		panic(err)
 	}
 	return embedFileSystem{
-		FileSystem: http.FS(fsys),
+		FileSystem: http.FS(sub),
 	}
 }
 

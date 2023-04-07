@@ -56,13 +56,13 @@ func ServeRoot(urlPrefix, root string) gin.HandlerFunc {
 
 // Serve Static returns a middleware handler that serves static files in the given directory.
 func Serve(urlPrefix string, fs ServeFileSystem) gin.HandlerFunc {
-	fileserver := http.FileServer(fs)
+	fileServer := http.FileServer(fs)
 	if urlPrefix != "" {
-		fileserver = http.StripPrefix(urlPrefix, fileserver)
+		fileServer = http.StripPrefix(urlPrefix, fileServer)
 	}
 	return func(c *gin.Context) {
 		if fs.Exists(urlPrefix, c.Request.URL.Path) {
-			fileserver.ServeHTTP(c.Writer, c.Request)
+			fileServer.ServeHTTP(c.Writer, c.Request)
 			c.Abort()
 		}
 	}
